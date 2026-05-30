@@ -30,6 +30,12 @@
     .action-btn { background: #6c757d; color: white; border: none; padding: 0 12px; border-radius: 6px; cursor: pointer; font-size: 12px; white-space: nowrap; }
     .copy-small-btn { background: #17a2b8; }
     footer { background: #e9ecef; color: #6c757d; text-align: center; padding: 20px; font-size: 0.8em; border-top: 1px solid #dee2e6; line-height: 1.5; }
+  .help-section { margin-bottom: 20px; }
+    .help-summary { font-size: 0.9em; font-weight: bold; color: #2c3e50; cursor: pointer; padding: 10px; background: #e9ecef; border-radius: 6px; user-select: none; }
+    .help-summary:hover { background: #dee2e6; }
+    .help-content { background: white; padding: 15px; border-radius: 6px; border: 1px solid #ddd; margin-top: 5px; font-size: 0.85em; line-height: 1.5; color: #555; }
+    .help-content ol { margin: 0; padding-left: 20px; }
+    .help-content li { margin-bottom: 8px; }
 </style>
 </head>
 <body>
@@ -38,6 +44,18 @@
     <p>Fill in the form to automatically generate a report text for forums.<br>Simply copy the text and paste it onto the CubeCraft report page.</p>
 </header>
 <div class="container">
+  
+  <details class="help-section">
+        <summary class="help-summary">❓ How to Use / Instructions</summary>
+        <div class="help-content">
+            <ol>
+                <li><strong>Fill out the form:</strong> Enter the rule-breaker's name, evidence URL, and select the correct offence type.</li>
+                <li><strong>Generate & Copy:</strong> Click the <span style="color: #007bff; font-weight: bold;">"Copy All & Save History"</span> button. The generated text will be copied to your clipboard automatically.</li>
+                <li><strong>Submit to CubeCraft:</strong> Click the <span style="color: #6c757d; font-weight: bold;">"🌐 Open CubeCraft Report Page"</span> button to go to the official report site, then paste your text there.</li>
+            </ol>
+        </div>
+    </details>
+
 
 <div class="card">
     <h3>CubeCraft Player Report Form</h3>
@@ -110,6 +128,9 @@
     <strong>【Preview】</strong>
     <div id="total-preview"></div>
     <button class="copy-btn" onclick="copyAndSave()">Copy All & Save History</button>
+    <a href="https://www.cubecraft.net/categories/player-reports.150/" target="_blank" style="display: block; text-align: center; margin-top: 10px; text-decoration: none;">
+            <button type="button" class="add-btn" style="background: #2c3e50; font-weight: bold; padding: 12px;">🌐 Open CubeCraft Report Page</button>
+        </a>
 </div>
 
 <div id="history-section">
@@ -223,6 +244,23 @@ Please check it. Thank you!`;
     }
 
     async function copyAndSave() {
+        const name = document.getElementById('c-name').value.trim();
+        const offence = document.getElementById('c-offence').value;
+        const url = document.getElementById('c-url').value.trim();
+        const btn = document.querySelector('.copy-btn');
+        const originalText = btn.innerText;
+
+        if (!name || !offence || !url) {
+            btn.innerText = "❌ Error: Please fill in Name, Offence, and URL!";
+            btn.style.background = "#ff4757";
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "";
+            }, 2000);
+            return;
+        }
+
         const content = document.getElementById('total-preview').innerText;
         await navigator.clipboard.writeText(content);
         
@@ -230,8 +268,7 @@ Please check it. Thank you!`;
         history.unshift({ text: content, date: new Date().toLocaleString() });
         localStorage.setItem('reportHistory', JSON.stringify(history.slice(0, 10)));
         renderHistory();
-       const btn = document.querySelector('.copy-btn');
-        const originalText = btn.innerText;
+        
         btn.innerText = "🟢 Copied & Saved!";
         btn.style.background = "#2ecc71";
         
@@ -346,6 +383,9 @@ Please check it. Thank you!`;
 <footer>
     <p>© 2026 CubeCraft Player Report Form. All rights reserved.<br>
     Disclaimer: This tool is an unofficial fan-made utility and is not affiliated with or endorsed by CubeCraft Games.</p>
+<a href="#" onclick="document.getElementById('terms-modal').style.display='flex'; return false;">Terms of Use</a> | 
+<a href="https://forms.gle/2zBgGnAvqKc1UtAY6" target="_blank">💬 Send Feedback & Bug Reports</a>
+    </p>
 </footer>
 </body>
 </html>
