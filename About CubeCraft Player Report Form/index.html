@@ -67,17 +67,6 @@ footer a:hover { text-decoration: underline; }
   </div>
 </div>
 
-<script>
-window.addEventListener('scroll', () => {
-  const fixedHeader = document.querySelector('.header-fixed');
-  if (window.scrollY > 130) {
-    fixedHeader.classList.add('show');
-  } else {
-    fixedHeader.classList.remove('show');
-  }
-});
-</script>
-
 <footer>
   <div style="display: flex; justify-content: space-between; max-width: 700px; margin: 0 auto; flex-wrap: wrap; gap: 30px;">
     
@@ -105,6 +94,17 @@ window.addEventListener('scroll', () => {
     <p>© 2026 CubeCraft Player Report Form. All rights reserved.<br>Disclaimer: This tool is an unofficial fan-made utility and is not affiliated with or endorsed by CubeCraft Games.</p>
   </div>
 </footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  const fixedHeader = document.querySelector('.header-fixed');
+  if (window.scrollY > 130) {
+    fixedHeader.classList.add('show');
+  } else {
+    fixedHeader.classList.remove('show');
+  }
+});
+</script>
 
 </body>
 </html>
