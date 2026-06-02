@@ -260,8 +260,19 @@ footer a:hover { text-decoration: underline; }
     function formatDisplayDate(val) {
         if (!val) return "---";
         const d = new Date(val);
-        const options = { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
-        return d.toLocaleString('en-US', options) + " (JST)";
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const month = months[d.getUTCMonth()];
+        const day = d.getUTCDate();
+        const year = d.getUTCFullYear();
+        
+        let hours = d.getUTCHours();
+        const minutes = String(d.getUTCMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        
+        hours = hours % 12;
+        hours = hours ? hours : 12; // 0時は12時として表記
+        
+        return `${month} ${day}, ${year}, ${hours}:${minutes} ${ampm} (UTC)`;
     }
 
     function update() {
