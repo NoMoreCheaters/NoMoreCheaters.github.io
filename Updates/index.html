@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CubeCraft Player Report Form</title>
-<meta name="description" content="Easily generate formatted player reports for CubeCraft forums. Input usernames, evidence URLs, timestamps, and server details to copy and paste instantly.">
+<title>Updates - CubeCraft Player Report Form</title>
 <style>
 body { font-family: sans-serif; padding: 0; margin: 0; background: #f4f7f9; color: #333; display: flex; flex-direction: column;  min-height: 100vh; width: 100%; }
+
 header { background: #2c3e50; color: white; padding: 25px 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
 header h1 { margin: 0 0 10px 0; font-size: 1.8em; }
 header a{ color: white; text-decoration: none; margin: 0 8px; text-align: left; line-height: 2.5; font-size: 16px}
@@ -15,37 +15,33 @@ header a:hover { text-decoration: underline; }
 .container { max-width: 700px; width: 100%; margin: 20px auto; padding: 0 20px; box-sizing: border-box; flex: 1; }
 .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
 
-h2 { font-size: 1.3em; color: #2c3e50; margin-top: 0; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+.log-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; margin-bottom: 15px; }
+.version {  font-size: 1.3em; font-weight: bold; color: #2c3e50; }
+.date { font-size: 0.9em; color: #888; }
 
-.field-group { margin-bottom: 15px; }
-label { display: block; font-size: 0.85em; font-weight: bold; margin-bottom: 5px; color: #555; }
-    
-input[type="text"], input[type="datetime-local"], select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
-    
-.input-with-btn { display: flex; gap: 5px; }
-.paste-btn { background: #6c757d; color: white; border: none; padding: 0 15px; border-radius: 6px; cursor: pointer; font-size: 12px; white-space: nowrap; }
+.log-list { list-style: none; padding: 0; margin: 0; }
+.log-item { margin-bottom: 12px; line-height: 1.6; font-size: 0.95em; }
 
-.checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px solid #ddd; }
-.checkbox-item { font-weight: normal; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 5px; margin: 0; }
-
-.ts-row { display: flex; gap: 5px; margin-bottom: 8px; align-items: center; }
-.ts-time { flex: 0.3; }
-.ts-memo { flex: 0.7; }
-.del-btn { background: #ff4757; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
-
-.add-btn { background: #6c757d; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 5px; }
-.copy-btn { background: #007bff; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 20px; }
-
-#total-preview { white-space: pre-wrap; background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 8px; margin-top: 15px; line-height: 1.6; font-family: monospace; }
-.history-item { background: #fff; padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-left: 5px solid #007bff; font-size: 0.85em; }
-.action-btn { background: #6c757d; color: white; border: none; padding: 0 12px; border-radius: 6px; cursor: pointer; font-size: 12px; white-space: nowrap; }
-.copy-small-btn { background: #17a2b8; }
+.tag-text { font-weight: bold; color: #2c3e50; margin-right: 4px; }
 
 footer { background: #e9ecef; padding: 20px; font-size: 0.8em; border-top: 1px solid #dee2e6; line-height: 1.5; width: 100%; box-sizing: border-box; margin-top: auto; }
 footer .copyright { text-align: center; color: #6c757d; width: 100%; margin-top: 10px; }
 footer a { color: black; text-decoration: none; margin: 0 8px; text-align: left; line-height: 2.5; font-size: 16px }
 footer a:hover { text-decoration: underline; }
-@media (max-width: 600px) 
+@media (max-width: 600px)
+
+.pagination-wrapper { width: 100%; display: flex; justify-content: center; margin: 30px 0 20px 0; }
+
+.pagination { display: flex; align-items: center; gap: 8px; }
+
+.page-btn { background: white; color: #2c3e50 ; border: 1px solid #ddd; padding: 8px 14px; border-radius: 6px; font-size: 0.9em; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.2s; }
+
+.page-btn:hover:not(.disabled):not(.active) { background: #2c3e50; color: white ; border-color: #2c3e50; }
+
+.page-btn.active { background: #2c3e50; color: white; border-color: #2c3e50; font-weight: bold; cursor: default; }
+
+.page-btn.disabled { color: #bdc3c7; background: #f4f7f9; border-color: #ddd; cursor: not-allowed; }
+
 </style>
 </head>
 <body>
@@ -59,320 +55,115 @@ footer a:hover { text-decoration: underline; }
 </header>
 
 <div class="container">
-<div class="card">
-<h2>CubeCraft Player Report Form</h2>
-<p style="font-size: 0.8em; color: #888; margin-top: -5px; margin-bottom: 20px; text-align: right;">Last Updated: May 31, 2026</p>
-            
-<div class="field-group">
-<label>What is/are their username(s)?</label>
-<div class="input-with-btn">
-<input type="text" id="c-name" placeholder="Input name..." oninput="update()">
-<button class="action-btn copy-small-btn" onclick="copyFrom('c-name')">Copy</button>
-<button class="action-btn" onclick="pasteTo('c-name')">Paste</button>
-</div>
-</div>
-
-<div class="field-group">
-<label>Date & Time (JST):</label>
-<input type="datetime-local" id="c-datetime" oninput="update()">
-</div>
   
-<div class="field-group">
-<label>Offence:</label>
-<select id="c-offence" onchange="toggleReasonVisibility(); update();">
-<option value="Cheating">Cheating</option>
-<option value="Teaming">Teaming</option>
-<option value="Trolling">Trolling</option>
-</select>
-</div>
+  <div id="log-container">
 
-<div class="field-group" id="reason-section">
-<label>What clients or modifications were they using?</label>
-<div class="checkbox-grid" id="reason-options">
-<label class="checkbox-item"><input type="checkbox" value="Anti Knockback" onchange="update()"> Anti Knockback</label>
-<label class="checkbox-item"><input type="checkbox" value="Chat Bot (Automessages)" onchange="update()"> Chat Bot (Automessages)</label>
-<label class="checkbox-item"><input type="checkbox" value="Fly" onchange="update()"> Fly</label>
-<label class="checkbox-item"><input type="checkbox" value="Kill Aura" onchange="update()"> Kill Aura</label>
-<label class="checkbox-item"><input type="checkbox" value="Reach" onchange="update()"> Reach</label>
-<label class="checkbox-item"><input type="checkbox" value="Speed" onchange="update()"> Speed</label>
-</div>
+  <div class="card">
+    <div class="log-header">
+      <h2 class="version" style="margin: 0;">Version 1</h2>
+      <span class="date">Updated: Jun 2, 2026</span>
+    </div>
+    <ul class="log-list">
+      <li class="log-item">
+        <span class="tag-text">[Added]</span> Dark mode support for night gamers.
+      </li>
+      <li class="log-item">
+        <span class="tag-text">[Fixed]</span> Resolved an issue where timestamps were formatted incorrectly.
+      </li>
+      <li class="log-item">
+        <span class="tag-text">[Improved]</span> Optimized loading speed for the preview text.
+      </li>
+    </ul>
+  </div>
+  
+  <div class="card">
+    <div class="log-header">
+      <h2 class="version" style="margin: 0;">Version 2</h2>
+      <span class="date">Updated: Jun 2, 2026</span>
+    </div>
+    <ul class="log-list">
+      <li class="log-item">
+        <span class="tag-text">[Added]</span> Dark mode support for night gamers.
+      </li>
+      <li class="log-item">
+        <span class="tag-text">[Fixed]</span> Resolved an issue where timestamps were formatted incorrectly.
+      </li>
+      <li class="log-item">
+        <span class="tag-text">[Improved]</span> Optimized loading speed for the preview text.
+      </li>
+    </ul>
+  </div> 
+  
+  <div class="pagination-wrapper">
+    <div class="pagination" id="pagination"></div>
+  </div>
+    
+  </div>
+  
+  </div>
 
-<div class="field-group">
-<label>Video Evidence URL:</label>
-<div class="input-with-btn">
-<input type="text" id="c-url" placeholder="https://..." oninput="update()">
-<button class="action-btn copy-small-btn" onclick="copyFrom('c-url')">Copy</button>
-<button class="action-btn" onclick="pasteTo('c-url')">Paste</button>
-</div>
-</div>
-
-<div class="field-group">
-<label>Timestamps</label>
-<div id="ts-area"></div>
-<button class="add-btn" onclick="addTsRow()">＋ Add Timestamp</button>
-</div>
-
-<div style="display: flex; gap: 15px;">
-<div class="field-group" style="flex: 1;">
-<label>Server ID</label>
-<input type="text" id="c-server" placeholder="Server ID..." oninput="update()">
-</div>
-<div class="field-group" style="flex: 1;">
-<label>Platform</label>
-<select id="c-platform" onchange="update()">
-<option value="Bedrock">Bedrock</option>
-<option value="Java">Java</option>
-</select>
-</div>
-</div>
-
-<strong>【Preview】</strong>
-<div id="total-preview"></div>
-<button class="copy-btn" onclick="copyAndSave()">Copy All & Save History</button>
-<a href="https://cubecraft.net" target="_blank" style="display: block; text-align: center; margin-top: 10px; text-decoration: none;">
-<button type="button" class="add-btn" style="background: #2c3e50; font-weight: bold; padding: 12px; width: 100%; box-sizing: border-box;">🌐 Open CubeCraft Report Page</button>
-</a>
-</div>
-
-<div id="history-section">
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-<h3 style="margin: 0;">📂 History</h3>
-<button class="action-btn" onclick="clearAllHistory()" style="background: #ff4757; padding: 6px 12px;">Clear All</button>
-</div>
-<div id="history-list"></div>
-</div>
+<footer>
+  <p style="margin-top: 10px;">
+    <a href="Terms/" target="_blank">Terms of Use</a><br>
+    <a href="Privacy Policy/" target="_blank">Privacy Policy</a><br>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScevdgT2PAl7UtTsaydpIw81twVGM0TZHmeyWEAA_KL6tZluw/viewform?usp=header" target="_blank">Contact Us</a>
+  </p>
+  <p class="copyright">© 2026 CubeCraft Player Report Form. All rights reserved.<br>Disclaimer: This tool is an unofficial fan-made utility and is not affiliated with or endorsed by CubeCraft Games.</p>
+</footer>
 
 <script>
-    window.onload = () => { 
+const itemsPerPage = 10;
+let currentPage = 1;
 
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        document.getElementById('c-datetime').value = now.toISOString().slice(0, 16);
-        
-        addTsRow(); 
-        renderHistory();
-        update();
-    };
-
-    async function pasteTo(id) {
-        try {
-            const text = await navigator.clipboard.readText();
-            document.getElementById(id).value = text;
-            update();
-        } catch (err) { alert("Clipboard access denied."); }
-    }
-  async function copyFrom(id) {
-        const val = document.getElementById(id).value;
-        if (!val) return;
-        try {
-            await navigator.clipboard.writeText(val);
-        } catch (err) { alert("Clipboard access denied."); }
-    }
-
-    function addTsRow() {
-        const area = document.getElementById('ts-area');
-        const div = document.createElement('div');
-        div.className = 'ts-row';
-        div.innerHTML = `
-            <input type="text" class="ts-time" placeholder="0:00" oninput="update()">
-            <select class="ts-memo-select" onchange="update()" style="flex: 0.3; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
-                <option value="">Choose...</option>
-                <option value="Fly">Fly</option>
-                <option value="Kill Aura">Kill Aura</option>
-                <option value="Teaming">Teaming</option>
-                <option value="Other">Other (Custom)</option>
-            </select>
-            <input type="text" class="ts-memo-custom" placeholder="Detail" oninput="update()" style="flex: 0.4; display: none; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
-            <button class="del-btn" onclick="this.parentElement.remove(); update();">✕</button>
-        `;
-
-        const select = div.querySelector('.ts-memo-select');
-        const customInput = div.querySelector('.ts-memo-custom');
-        select.addEventListener('change', () => {
-            if (select.value === 'Other') {
-                customInput.style.display = 'block';
-            } else {
-                customInput.style.display = 'none';
-                customInput.value = '';
-            }
-        });
-
-        area.appendChild(div);
-        update();
-    }
-
-    function formatDisplayDate(val) {
-        if (!val) return "---";
-        const d = new Date(val);
-        const options = { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
-        return d.toLocaleString('en-US', options) + " (JST)";
-    }
-
-    function update() {
-        const name = document.getElementById('c-name').value || "---";
-        const dateStr = formatDisplayDate(document.getElementById('c-datetime').value);
-        
-        const checkboxes = document.querySelectorAll('#reason-options input:checked');
-        const reasonText = checkboxes.length > 0 
-            ? Array.from(checkboxes).map(cb => cb.value).join(', ') 
-            : "---";
-
-        const url = document.getElementById('c-url').value || "---";
-        const server = document.getElementById('c-server').value || "---";
-        const platform = document.getElementById('c-platform').value;
-        
-        const rows = document.querySelectorAll('.ts-row');
-        let tsArray = [];
-        rows.forEach(row => {
-            const time = row.querySelector('.ts-time').value.trim();
-            const memo = row.querySelector('.ts-memo').value.trim();
-            if (time && memo) tsArray.push(`${time}(${memo})`);
-            else if (time) tsArray.push(time);
-            else if (memo) tsArray.push(`(${memo})`);
-        });
-
-        const template = `Hello. I am reporting a cheater.
-- Cheater's Name: ${name}
-- Date & Time: ${dateStr}
-- Reason: ${reasonText}
-- Evidence: ${url}
-- Timestamps: ${tsArray.join(', ')}
-- Server ID: ${server}
-- Platform: ${platform}
-Please check it. Thank you!`;
-
-        document.getElementById('total-preview').innerText = template;
-    }
-
-    async function copyAndSave() {
-        const content = document.getElementById('total-preview').innerText;
-        await navigator.clipboard.writeText(content);
-        
-        let history = JSON.parse(localStorage.getItem('reportHistory') || "[]");
-        history.unshift({ text: content, date: new Date().toLocaleString() });
-        localStorage.setItem('reportHistory', JSON.stringify(history.slice(0, 10)));
-        renderHistory();
-       const btn = document.querySelector('.copy-btn');
-        const originalText = btn.innerText;
-        btn.innerText = "🟢 Copied & Saved!";
-        btn.style.background = "#2ecc71";
-        
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.background = "";
-        }, 1200);
-    }
-    function renderHistory() {
-        const history = JSON.parse(localStorage.getItem('reportHistory') || "[]");
-        document.getElementById('history-list').innerHTML = history.map(item => `
-            <div class="history-item">
-                <div style="font-size: 0.7em; color: #888; margin-bottom: 5px;">${item.date}</div>
-                <div style="white-space:pre-wrap;">${item.text}</div>
-            </div>
-        `).join('');
-    }
-function toggleReasonVisibility() {
-        const offence = document.getElementById('c-offence').value;
-        const reasonSection = document.getElementById('reason-section');
-        if (offence === 'Cheating') {
-            reasonSection.style.display = 'block';
-        } else {
-            reasonSection.style.display = 'none';
-        }
-    }
-
-    function update() {
-        const name = document.getElementById('c-name').value || "---";
-        const dateStr = formatDisplayDate(document.getElementById('c-datetime').value);
-        
-        const offence = document.getElementById('c-offence').value;
-        let reasonText = "---";
-        
-        if (offence === 'Cheating') {
-            const checkboxes = document.querySelectorAll('#reason-options input:checked');
-            reasonText = checkboxes.length > 0 
-                ? Array.from(checkboxes).map(cb => cb.value).join(', ') 
-                : "---";
-        } else {
-
-            reasonText = offence;
-        }
-
-        const url = document.getElementById('c-url').value || "---";
-        const server = document.getElementById('c-server').value || "---";
-        const platform = document.getElementById('c-platform').value;
-
-        const rows = document.querySelectorAll('.ts-row');
-        let tsArray = [];
-        rows.forEach(row => {
-            const time = row.querySelector('.ts-time').value.trim();
-            const selectVal = row.querySelector('.ts-memo-select').value;
-            const customVal = row.querySelector('.ts-memo-custom').value.trim();
-            const memo = (selectVal === 'Other') ? customVal : selectVal;
-
-            if (time && memo) tsArray.push(`${time}(${memo})`);
-            else if (time) tsArray.push(time);
-            else if (memo) tsArray.push(`(${memo})`);
-        });
-
-        const template = `Hello. I am reporting a cheater.
-- Cheater's Name: ${name}
-- Date & Time: ${dateStr}
-- Reason: ${reasonText}
-- Evidence: ${url}
-- Timestamps: ${tsArray.join(', ')}
-- Server ID: ${server}
-- Platform: ${platform}
-Please check it. Thank you!`;
-
-        document.getElementById('total-preview').innerText = template;
-    }
-      window.onload = () => { 
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        document.getElementById('c-datetime').value = now.toISOString().slice(0, 16);
-        
-        addTsRow(); 
-        renderHistory();
-        toggleReasonVisibility();
-        update();
-    };
+function displayPage(page) {
+  const container = document.getElementById('log-container');
+  const cards = Array.from(container.getElementsByClassName('card'));
+  const totalPages = Math.ceil(cards.length / itemsPerPage);
   
-  function deleteHistoryItem(index) {
-        let history = JSON.parse(localStorage.getItem('reportHistory') || "[]");
-        history.splice(index, 1);
-        localStorage.setItem('reportHistory', JSON.stringify(history));
-        renderHistory();
-    }
+  if (page < 1) page = 1;
+  if (page > totalPages) page = totalPages;
+  currentPage = page;
 
-    function clearAllHistory() {
-        if (confirm("Are you sure you want to delete all history?")) {
-            localStorage.removeItem('reportHistory');
-            renderHistory();
-        }
+  cards.forEach((card, index) => {
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    if (index >= start && index < end) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
     }
-  function renderHistory() {
-        const history = JSON.parse(localStorage.getItem('reportHistory') || "[]");
-        document.getElementById('history-list').innerHTML = history.map((item, index) => `
-            <div class="history-item" style="position: relative;">
-                <div style="font-size: 0.7em; color: #888; margin-bottom: 5px;">${item.date}</div>
-                <div style="white-space:pre-wrap; padding-right: 25px;">${item.text}</div>
-                <button onclick="deleteHistoryItem(${index})" style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 14px; font-weight: bold; padding: 0;">✕</button>
-            </div>
-        `).join('');
-    }
+  });
 
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
+
+
+  const prevBtn = document.createElement('a');
+  prevBtn.href = '#';
+  prevBtn.className = `page-btn ${currentPage === 1 ? 'disabled' : ''}`;
+  prevBtn.innerText = '« Prev';
+  prevBtn.onclick = (e) => { e.preventDefault(); if (currentPage > 1) displayPage(currentPage - 1); };
+  pagination.appendChild(prevBtn);
+
+  for (let i = 1; i <= totalPages; i++) {
+    const pageBtn = document.createElement('a');
+    pageBtn.href = '#';
+    pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+    pageBtn.innerText = i;
+    pageBtn.onclick = (e) => { e.preventDefault(); displayPage(i); };
+    pagination.appendChild(pageBtn);
+  }
+
+  const nextBtn = document.createElement('a');
+  nextBtn.href = '#';
+  nextBtn.className = `page-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+  nextBtn.innerText = 'Next »';
+  nextBtn.onclick = (e) => { e.preventDefault(); if (currentPage < totalPages) displayPage(currentPage + 1); };
+  pagination.appendChild(nextBtn);
+}
+
+document.addEventListener('DOMContentLoaded', () => displayPage(1));
 </script>
-</div>
-</div>
-<footer>
-<p style="margin-top: 10px;">
-<a href="Terms/" target="_blank">Terms of Use</a><br>
-<a href="Privacy Policy/" target="_blank">Privacy Policy</a><br>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLScevdgT2PAl7UtTsaydpIw81twVGM0TZHmeyWEAA_KL6tZluw/viewform?usp=header" target="_blank">Contact Us</a>
-</p>
-<p class="copyright">© 2026 CubeCraft Player Report Form. All rights reserved.<br>
-Disclaimer: This tool is an unofficial fan-made utility and is not affiliated with or endorsed by CubeCraft Games.</p>
-</footer>
+
 </body>
 </html>
