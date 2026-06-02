@@ -1,0 +1,17 @@
+header h1 { margin: 0; }
+header a { color: white; text-decoration: none; font-size: 16px; }
+header a:hover { text-decoration: underline; }
+
+.header-default { background: #2c3e50; color: white; padding: 25px 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.header-default h1 { margin-bottom: 10px; font-size: 1.8em; }
+.header-default a { margin: 0 8px; line-height: 2.5; }
+
+.header-fixed { background: #2c3e50; color: white; padding: 15px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: fixed; top: -100px; left: 0; width: 100%; box-sizing: border-box; z-index: 1000; display: flex; justify-content: space-between; align-items: center; transition: top 0.2s ease; }
+.header-fixed h1 { font-size: 1.5em; }
+.header-fixed nav { display: flex; align-items: center; gap: 15px; }
+
+.header-fixed.show { top: 0; }
+
+.logo-link { color: white ; text-decoration: none ; font-size: 1em ; font-weight: bold ;  transition: opacity 0.2s; line-height: 1 ; display: inline-block; margin: 0 ; }
+
+.logo-link:hover { opacity: 0.8 ; text-decoration: none ; }
