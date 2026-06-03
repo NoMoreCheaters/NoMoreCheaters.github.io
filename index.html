@@ -398,7 +398,7 @@ Please check it. Thank you!`;
         `).join('');
     }
 
-fetch('header.html')
+fetch('/header.html')
     .then(response => response.text())
     .then(data => {
       const placeholder = document.getElementById('header-placeholder');
