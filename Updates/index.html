@@ -161,7 +161,7 @@ function displayPage(page) {
 
 document.addEventListener('DOMContentLoaded', () => displayPage(1));
 
-fetch('header.html')
+fetch('/header.html')
     .then(response => response.text())
     .then(data => {
       const placeholder = document.getElementById('header-placeholder');
