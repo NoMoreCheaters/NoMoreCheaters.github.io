@@ -161,15 +161,6 @@ function displayPage(page) {
 
 document.addEventListener('DOMContentLoaded', () => displayPage(1));
 
-window.addEventListener('scroll', () => {
-  const fixedHeader = document.querySelector('.header-fixed');
-  if (window.scrollY > 130) {
-    fixedHeader.classList.add('show');
-  } else {
-    fixedHeader.classList.remove('show');
-  }
-});
-
 fetch('header.html')
     .then(response => response.text())
     .then(data => {
@@ -182,7 +173,6 @@ fetch('header.html')
       }
     })
     .catch(error => console.error('ヘッダーの読み込みに失敗しました:', error));
-
 </script>
 
 </body>
