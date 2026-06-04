@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Use - CubeCraft Player Report Form</title>
+<style>
+
+h2 { font-size: 1.3em; color: #2c3e50; margin-top: 0; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+p { line-height: 1.6; font-size: 0.95em; color: #444; margin-bottom: 15px; }
+
+h3 { font-size: 1.05em; color: #007bff; margin-top: 20px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+p { font-size: 0.9em; line-height: 1.6; color: #555; margin: 0 0 10px 0; }
+ol { margin: 0; padding-left: 20px; font-size: 0.9em; line-height: 1.6; color: #333; }
+li { margin-bottom: 15px; }
+.step-badge { background: #2c3e50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-right: 5px; }
+.notice-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px; border-radius: 6px; font-size: 0.85em; color: #664d03; margin-top: 15px; }
+.btn-preview { display: inline-block; background: #6c757d; color: white; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; }
+.btn-blue-preview { background: #007bff; }
+.btn-dark-preview { background: #2c3e50; }
+
+</style>
+</head>
+<body>
+<div id="header-placeholder"></div>
+
+<div class="container">
+    <div class="card">
+        <h2>How to Use</h2>
+        <p>This tool helps you quickly format player reports for the CubeCraft forums in just a few simple steps.</p>
+        
+        <ol>
+            <li>
+                <span class="step-badge">STEP 1</span> <strong>Fill in the Information</strong>
+                <p>Enter the required details such as the username(s), date & time, offence type, and video evidence URL. You can use the <span class="btn-preview" style="background:#17a2b8;">Copy</span> and <span class="btn-preview">Paste</span> buttons next to the fields for faster input.</p>
+            </li>
+            <li>
+                <span class="step-badge">STEP 2</span> <strong>Add Timestamps</strong>
+                <p>Specify exactly when the rule-breaking behavior occurs in your video. Click <span class="btn-preview">＋ Add Timestamp</span> to add rows. Select a reason from the dropdown, or choose "Other" to type in your own custom details.</p>
+            </li>
+            <li>
+                <span class="step-badge">STEP 3</span> <strong>Copy the Formatted Text</strong>
+                <p>Check the automatically generated text in the 【Preview】 section at the bottom. If everything looks correct, click the <span class="btn-preview btn-blue-preview">Copy All & Save History</span> button. This copies the text to your clipboard and logs it in your history.</p>
+            </li>
+            <li>
+                <span class="step-badge">STEP 4</span> <strong>Submit on the Forum</strong>
+                <p>Click <span class="btn-preview btn-dark-preview">🌐 Open CubeCraft Report Page</span> to head directly to the official forums. Simply paste your copied text (Ctrl+V) into your new forum thread and submit your report.</p>
+            </li>
+        </ol>
+
+        <h3>📂 About the History Feature</h3>
+        <p>Every time you copy a report, it is saved automatically in the "History" section below the form. The history is stored locally in your browser, allowing you to generate multiple report texts sequentially and post them all at once later.</p>
+
+        <div class="notice-box">
+            <strong>⚠️ Important Note</strong><br>
+            According to CubeCraft official guidelines, edited evidence videos (including cuts, speed adjustments, or zooms) are highly likely to be rejected. It is strongly recommended to provide raw, unedited video URLs.
+        </div>
+        
+    </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+fetch('/header.html')
+    .then(response => response.text())
+    .then(data => {
+      const placeholder = document.getElementById('header-placeholder');
+      placeholder.innerHTML = data;
+
+      const script = placeholder.querySelector('script');
+      if (script) {
+        eval(script.innerText);
+      }
+    })
+    .catch(error => console.error('ヘッダーの読み込みに失敗しました:', error));
+
+  fetch('/footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    })
+    .catch(error => console.error('フッターの読み込みに失敗しました:', error));
+
+</script>
+
+</body>
+</html>
