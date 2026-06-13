@@ -27,6 +27,8 @@
 
 .page-btn.disabled { color: #bdc3c7; background: #f4f7f9; border-color: #ddd; cursor: not-allowed; }
 
+h2 { font-size: 1.8em; color: #2c3e50; margin-top: 10px; margin-bottom: 20px; font-weight: bold; }
+
 </style>
 </head>
 <body>
@@ -37,61 +39,7 @@
   
   <div id="log-container">
   
-  <h2 style="font-size: 1.8em; color: #2c3e50; margin-top: 10px; margin-bottom: 20px; font-weight: bold;">Changelog</h2>
-
-  <div class="card">
-    <div class="log-header">
-      <h2 class="version" style="margin: 0;">Version 1.0.2</h2>
-      <span class="date">Updated: Jun 9, 2026</span>
-    </div>
-    <ul class="log-list">
-      <li class="log-item">
-<p style="margin: 15px 0 15px 0; line-height: 1.6; color: #555; font-size: 0.95em;">
-      We have optimized the footer layout for smaller screens to make it easier to read. We will continue improving the mobile experience, so stay tuned for more updates.
-    </p>
-
-    <div style="border-top: 1px dashed #ddd; margin: 15px 0;"></div>
-
-    <p style="margin: 0; line-height: 1.5; color: #333;">
-      <span class="tag-text">[Improved]</span> Partial mobile support for footers.
-    </p>
-  </div>
-
-  <div class="card">
-    <div class="log-header">
-      <h2 class="version" style="margin: 0;">Version 1.0.1</h2>
-      <span class="date">Updated: Jun 4, 2026</span>
-    </div>
-    <ul class="log-list">
-      <li class="log-item">
-<p style="margin: 15px 0 15px 0; line-height: 1.6; color: #555; font-size: 0.95em;">
-      We are excited to introduce our first mobile-friendly update! The header layout has been optimized for smaller screens to make navigation easier. We will continue improving the mobile experience, so stay tuned for more updates.
-    </p>
-
-    <div style="border-top: 1px dashed #ddd; margin: 15px 0;"></div>
-
-    <p style="margin: 0; line-height: 1.5; color: #333;">
-      <span class="tag-text">[Improved]</span> Partial mobile support for headers.
-    </p>
-  </div>
-
-    <div class="card">
-    <div class="log-header">
-      <h2 class="version" style="margin: 0;">Version 1.0.0</h2>
-      <span class="date">Updated: Jun 2, 2026</span>
-    </div>
-    <ul class="log-list">
-      <li class="log-item">
-<p style="margin: 15px 0 15px 0; line-height: 1.6; color: #555; font-size: 0.95em;">
-      Welcome to the official release of the CubeCraft Player Report Form! This utility was built from scratch to help players quickly format and submit reports on the forums, making the report process smoother and more efficient.
-    </p>
-
-    <div style="border-top: 1px dashed #ddd; margin: 15px 0;"></div>
-
-    <p style="margin: 0; line-height: 1.5; color: #333;">
-      <span class="tag-text">[Released]</span> Initial official launch of the core report generator tool.
-    </p>
-  </div>
+  <h2>Changelog</h2>
   
   <div class="pagination-wrapper">
     <div class="pagination" id="pagination"></div>
@@ -154,7 +102,10 @@ function displayPage(page) {
   pagination.appendChild(nextBtn);
 }
 
-document.addEventListener('DOMContentLoaded', () => displayPage(1));
+document.addEventListener('DOMContentLoaded', () => {
+  renderChangelogs();
+  displayPage(1);
+});
 
 fetch('/header.html')
     .then(response => response.text())
@@ -167,15 +118,78 @@ fetch('/header.html')
         eval(script.innerText);
       }
     })
+    .catch(error => console.error('Failed to load header:', error));
+  
+  const changelogData = [
+    {
+    version: "Version 1.1.0",
+    date: "Updated: Jun 13, 2026",
+    desc: "We have added a reset button to the player report form. You can now instantly clear all input fields and checkboxes to start a new report easily.",
+    tag: "[Added]",
+    detail: "Reset form button."
+  },
+  {
+    version: "Version 1.0.2",
+    date: "Updated: Jun 9, 2026",
+    desc: "We have optimized the footer layout for smaller screens to make it easier to read. We will continue improving the mobile experience, so stay tuned for more updates.",
+    tag: "[Improved]",
+    detail: "Partial mobile support for footers."
+  },
+  {
+    version: "Version 1.0.1",
+    date: "Updated: Jun 4, 2026",
+    desc: "We are excited to introduce our first mobile-friendly update! The header layout has been optimized for smaller screens to make navigation easier. We will continue improving the mobile experience, so stay tuned for more updates.",
+    tag: "[Improved]",
+    detail: "Partial mobile support for headers."
+  },
+  {
+    version: "Version 1.0.0",
+    date: "Updated: Jun 2, 2026",
+    desc: "Welcome to the official release of the CubeCraft Player Report Form! This utility was built from scratch to help players quickly format and submit reports on the forums, making the report process smoother and more efficient.",
+    tag: "[Released]",
+    detail: "Initial official launch of the core report generator tool."
+  }
+];
 
-  fetch('/footer.html')
+function renderChangelogs() {
+  const container = document.getElementById('log-container');
+
+  container.innerHTML = '<h2 style="font-size: 1.8em; color: #2c3e50; margin-top: 10px; margin-bottom: 20px; font-weight: bold;">Changelog</h2>';
+
+  changelogData.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="log-header">
+        <h2 class="version" style="margin: 0;">${item.version}</h2>
+        <span class="date">${item.date}</span>
+      </div>
+      <ul class="log-list">
+        <li class="log-item">
+          <p style="margin: 15px 0 15px 0; line-height: 1.6; color: #555; font-size: 0.95em;">${item.desc}</p>
+          <div style="border-top: 1px dashed #ddd; margin: 15px 0;"></div>
+          <p style="margin: 0; line-height: 1.5; color: #333;">
+            <span class="tag-text">${item.tag}</span> ${item.detail}
+          </p>
+        </li>
+      </ul>
+    `;
+    container.appendChild(card);
+  });
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'pagination-wrapper';
+  wrapper.innerHTML = '<div class="pagination" id="pagination"></div>';
+  container.appendChild(wrapper);
+}
+
+fetch('/footer.html')
     .then(response => response.text())
     .then(data => {
       document.getElementById('footer-placeholder').innerHTML = data;
     })
-    .catch(error => console.error('フッターの読み込みに失敗しました:', error));
+    .catch(error => console.error('Failed to load footer:', error));
 
 </script>
-
 </body>
 </html>
